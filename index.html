@@ -376,9 +376,7 @@
                             <span class="server-description">${server.description}</span>
                         </td>
                         <td>
-                            <div class="install-command" onclick="copyToClipboard('${command.replace(/'/g, "\\'")}', this)">
-                                ${formattedCommand}
-                                <span class="copy-indicator">Click to copy</span>
+                            <div class="install-command" onclick="copyToClipboard('${command.replace(/'/g, "\\'")}', this)">${formattedCommand}<span class="copy-indicator">Click to copy</span>
                             </div>
                         </td>
                         <!-- Future column
