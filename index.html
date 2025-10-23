@@ -221,29 +221,43 @@
 
         .copy-indicator {
             position: absolute;
-            top: 0.375rem;
+            top: 0.5rem;
             right: 0.5rem;
-            font-size: 0.625rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.025em;
-            color: var(--fg-muted);
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto;
-            opacity: 0.6;
-            transition: opacity 0.3s ease, color 0.3s ease;
+            width: 16px;
+            height: 16px;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
         }
 
         .install-command:hover .copy-indicator {
-            opacity: 1;
+            opacity: 0.8;
         }
 
         .copy-indicator.success {
-            color: var(--success);
             opacity: 1;
         }
 
         .copy-indicator.fade-out {
             opacity: 0;
+        }
+
+        .copy-indicator svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .copy-icon {
+            stroke: var(--fg-muted);
+        }
+
+        .copy-indicator.success .copy-icon {
+            stroke: var(--success);
+        }
+
+        .check-icon {
+            stroke: var(--success);
         }
 
         .install-url {
@@ -404,7 +418,7 @@
             navigator.clipboard.writeText(plainText).then(() => {
                 const indicator = element.querySelector('.copy-indicator');
                 element.classList.add('copied');
-                indicator.textContent = 'Copied';
+                indicator.innerHTML = '<svg viewBox="0 0 16 16" fill="none" class="check-icon"><path d="M13.5 4.5L6 12L2.5 8.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
                 indicator.classList.add('success');
 
                 setTimeout(() => {
@@ -412,7 +426,7 @@
 
                     setTimeout(() => {
                         element.classList.remove('copied');
-                        indicator.textContent = 'Click to copy';
+                        indicator.innerHTML = '<svg viewBox="0 0 16 16" fill="none" class="copy-icon"><rect x="5" y="5" width="9" height="9" rx="1" stroke-width="1.5"/><path d="M3 10V3a1 1 0 0 1 1-1h7" stroke-width="1.5" stroke-linecap="round"/></svg>';
                         indicator.classList.remove('success', 'fade-out');
                     }, 300);
                 }, 1500);
@@ -441,7 +455,7 @@
                             <span class="server-description">${server.description}</span>
                         </td>
                         <td>
-                            <div class="install-command" data-command="${command.replace(/"/g, '&quot;')}" onclick="copyToClipboard(this)">${formattedCommand}<span class="copy-indicator">Click to copy</span>
+                            <div class="install-command" data-command="${command.replace(/"/g, '&quot;')}" onclick="copyToClipboard(this)">${formattedCommand}<span class="copy-indicator"><svg viewBox="0 0 16 16" fill="none" class="copy-icon"><rect x="5" y="5" width="9" height="9" rx="1" stroke-width="1.5"/><path d="M3 10V3a1 1 0 0 1 1-1h7" stroke-width="1.5" stroke-linecap="round"/></svg></span>
                             </div>
                         </td>
                         <!-- Future column
