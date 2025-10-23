@@ -464,7 +464,7 @@
                 const command = getInstallCommand(server, client);
                 const formattedCommand = formatInstallCommand(command, client);
                 const logoContent = server.logo
-                    ? `<img src="${server.logo}" alt="${server.name} logo">`
+                    ? `<img src="/${server.logo}" alt="${server.name} logo">`
                     : server.name[0];
 
                 return `
