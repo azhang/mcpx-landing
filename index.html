@@ -159,6 +159,11 @@
         }
 
         .install-command {
+            /* Reset any inherited styles */
+            all: unset;
+
+            /* Apply our specific styles */
+            display: block;
             position: relative;
             background: var(--code-bg);
             padding: 0.5rem 0.625rem;
@@ -166,6 +171,7 @@
             border-radius: var(--radius);
             font-family: 'SF Mono', Monaco, 'Courier New', monospace;
             font-size: 0.6875rem;
+            color: var(--fg);
             cursor: pointer;
             transition: all 0.15s;
             border: 1px solid var(--border);
@@ -174,6 +180,7 @@
             max-width: 500px;
             overflow-x: auto;
             text-indent: 0;
+            text-align: left;
         }
 
         .install-command:hover {
