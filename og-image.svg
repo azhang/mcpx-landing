@@ -1,0 +1,34 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Grid pattern overlay -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#334155" stroke-width="0.5" opacity="0.2"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+
+  <!-- Title -->
+  <text x="600" y="280" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif" font-size="72" font-weight="700" fill="#f8fafc" text-anchor="middle">
+    Allie's MCP Server Directory
+  </text>
+
+  <!-- Subtitle -->
+  <text x="600" y="360" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif" font-size="32" font-weight="400" fill="#94a3b8" text-anchor="middle">
+    Discover and install Model Context Protocol servers
+  </text>
+
+  <!-- URL -->
+  <text x="600" y="450" font-family="'SF Mono', Monaco, monospace" font-size="28" font-weight="500" fill="#3b82f6" text-anchor="middle">
+    mcp.x.zip
+  </text>
+</svg>
