@@ -339,9 +339,9 @@
             return command.replace(/(https?:\/\/[^\s]+)/g, '<span class="install-url">$1</span>');
         }
 
-        function copyToClipboard(text, element) {
-            // Remove HTML tags for copying
-            const plainText = text.replace(/<[^>]*>/g, '');
+        function copyToClipboard(element) {
+            // Get the plain text from data attribute
+            const plainText = element.getAttribute('data-command');
 
             navigator.clipboard.writeText(plainText).then(() => {
                 const indicator = element.querySelector('.copy-indicator');
@@ -376,7 +376,7 @@
                             <span class="server-description">${server.description}</span>
                         </td>
                         <td>
-                            <div class="install-command" onclick="copyToClipboard('${command.replace(/'/g, "\\'")}', this)">${formattedCommand}<span class="copy-indicator">Click to copy</span>
+                            <div class="install-command" data-command="${command.replace(/"/g, '&quot;')}" onclick="copyToClipboard(this)">${formattedCommand}<span class="copy-indicator">Click to copy</span>
                             </div>
                         </td>
                         <!-- Future column
