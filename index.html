@@ -52,9 +52,36 @@
 
         .client-selector {
             display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .selector-left {
+            display: flex;
             align-items: center;
             gap: 0.75rem;
-            margin-bottom: 1.5rem;
+        }
+
+        .install-instructions {
+            font-size: 0.8125rem;
+            color: var(--fg-muted);
+            line-height: 1.6;
+            max-width: 400px;
+        }
+
+        .install-instructions strong {
+            color: var(--fg);
+            font-weight: 500;
+        }
+
+        .install-instructions code {
+            background: var(--code-bg);
+            padding: 0.125rem 0.25rem;
+            border-radius: 3px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.75rem;
         }
 
         .client-selector label {
@@ -203,7 +230,7 @@
             color: var(--fg-muted);
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto;
             opacity: 0.6;
-            transition: opacity 0.15s;
+            transition: opacity 0.3s ease, color 0.3s ease;
         }
 
         .install-command:hover .copy-indicator {
@@ -213,6 +240,10 @@
         .copy-indicator.success {
             color: var(--success);
             opacity: 1;
+        }
+
+        .copy-indicator.fade-out {
+            opacity: 0;
         }
 
         .install-url {
@@ -240,6 +271,15 @@
                 padding: 1.5rem 1rem;
             }
 
+            .client-selector {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .install-instructions {
+                max-width: 100%;
+            }
+
             .table-wrapper {
                 overflow-x: auto;
             }
@@ -253,14 +293,17 @@
 <body>
     <div class="container">
         <div class="client-selector">
-            <label for="client">Client</label>
-            <select id="client">
-                <option value="claude-desktop">Claude Desktop</option>
-                <option value="claude-code">Claude Code</option>
-                <option value="codex">OpenAI Codex</option>
-                <option value="cursor">Cursor</option>
-                <option value="chatgpt">ChatGPT</option>
-            </select>
+            <div class="selector-left">
+                <label for="client">Client</label>
+                <select id="client">
+                    <option value="claude-desktop">Claude Desktop</option>
+                    <option value="claude-code">Claude Code</option>
+                    <option value="codex">OpenAI Codex</option>
+                    <option value="cursor">Cursor</option>
+                    <option value="chatgpt">ChatGPT</option>
+                </select>
+            </div>
+            <div class="install-instructions" id="install-instructions"></div>
         </div>
 
         <div class="table-wrapper">
@@ -297,13 +340,31 @@
 
         const clientSelect = document.getElementById('client');
         const serverList = document.getElementById('server-list');
+        const instructionsEl = document.getElementById('install-instructions');
+
+        function getClientInstructions(client) {
+            switch(client) {
+                case 'claude-desktop':
+                    return '<strong>Add via Settings → Connectors</strong><br>Copy and paste the URL below';
+                case 'claude-code':
+                case 'codex':
+                    return '<strong>Add via terminal</strong><br>Copy and run the command below';
+                case 'cursor':
+                    return '<strong>Add to Cursor settings</strong><br>Copy the JSON configuration below and add to your <code>settings.json</code>';
+                case 'chatgpt':
+                    return '<strong>Add via Settings → Developer Mode → Connectors</strong><br>Copy and paste the URL below';
+                default:
+                    return '';
+            }
+        }
 
         function getInstallCommand(server, client) {
             const serverNameLower = server.name.toLowerCase();
 
             switch(client) {
                 case 'claude-desktop':
-                    return `Add via Settings → Connectors\nURL: ${server.url}`;
+                case 'chatgpt':
+                    return server.url;
 
                 case 'claude-code':
                     return `claude mcp add --transport http ${serverNameLower} ${server.url}`;
@@ -318,9 +379,6 @@
     "url": "${server.url}"
   }
 }`;
-
-                case 'chatgpt':
-                    return `Add via Settings → Developer Mode → Connectors\nURL: ${server.url}`;
 
                 default:
                     return server.url;
@@ -350,15 +408,22 @@
                 indicator.classList.add('success');
 
                 setTimeout(() => {
-                    element.classList.remove('copied');
-                    indicator.textContent = 'Click to copy';
-                    indicator.classList.remove('success');
-                }, 2000);
+                    indicator.classList.add('fade-out');
+
+                    setTimeout(() => {
+                        element.classList.remove('copied');
+                        indicator.textContent = 'Click to copy';
+                        indicator.classList.remove('success', 'fade-out');
+                    }, 300);
+                }, 1500);
             });
         }
 
         function renderServers() {
             const client = clientSelect.value;
+
+            // Update instructions
+            instructionsEl.innerHTML = getClientInstructions(client);
 
             serverList.innerHTML = servers.map(server => {
                 const command = getInstallCommand(server, client);
