@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Server Directory</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --fg: #000000;
+            --border: #e0e0e0;
+            --hover: #f5f5f5;
+            --code-bg: #f8f8f8;
+            --success: #22c55e;
+            --link: #0066cc;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0a0a0a;
+                --fg: #ffffff;
+                --border: #2a2a2a;
+                --hover: #1a1a1a;
+                --code-bg: #1a1a1a;
+                --success: #22c55e;
+                --link: #3b82f6;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .client-selector {
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .client-selector label {
+            font-weight: 500;
+        }
+
+        select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--fg);
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            min-width: 200px;
+        }
+
+        select:hover {
+            border-color: var(--fg);
+        }
+
+        select:focus {
+            outline: 2px solid var(--link);
+            outline-offset: 2px;
+        }
+
+        .server-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .server-table thead {
+            background: var(--hover);
+            font-weight: 600;
+        }
+
+        .server-table th,
+        .server-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .server-table tbody tr:hover {
+            background: var(--hover);
+        }
+
+        .server-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .server-name {
+            font-weight: 500;
+        }
+
+        .server-description {
+            color: var(--fg);
+            opacity: 0.7;
+        }
+
+        .install-command {
+            position: relative;
+            background: var(--code-bg);
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .install-command:hover {
+            border-color: var(--fg);
+        }
+
+        .install-command.copied {
+            border-color: var(--success);
+            background: var(--code-bg);
+        }
+
+        .copy-feedback {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--success);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+
+        .copy-feedback.show {
+            opacity: 1;
+        }
+
+        .install-url {
+            color: var(--link);
+            text-decoration: none;
+        }
+
+        .install-url:hover {
+            text-decoration: underline;
+        }
+
+        .json-key {
+            color: #e06c75;
+        }
+
+        .json-string {
+            color: #98c379;
+        }
+
+        @media (max-width: 768px) {
+            .server-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .server-table thead {
+                display: none;
+            }
+
+            .server-table tbody,
+            .server-table tr,
+            .server-table td {
+                display: block;
+            }
+
+            .server-table tr {
+                margin-bottom: 1.5rem;
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                padding: 1rem;
+            }
+
+            .server-table td {
+                border: none;
+                padding: 0.5rem 0;
+            }
+
+            .server-table td:before {
+                content: attr(data-label);
+                font-weight: 600;
+                display: block;
+                margin-bottom: 0.25rem;
+                opacity: 0.7;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="client-selector">
+            <label for="client">MCP Client:</label>
+            <select id="client">
+                <option value="claude-desktop">Claude Desktop</option>
+                <option value="claude-code">Claude Code</option>
+                <option value="codex">OpenAI Codex</option>
+                <option value="cursor">Cursor</option>
+                <option value="chatgpt">ChatGPT</option>
+            </select>
+        </div>
+
+        <table class="server-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Install</th>
+                </tr>
+            </thead>
+            <tbody id="server-list">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const servers = [
+            {
+                name: 'Deribit',
+                description: 'Options trading and derivatives market data',
+                url: 'https://mcp.x.zip/deribit/mcp'
+            },
+            {
+                name: 'Polymarket',
+                description: 'Prediction market data and betting',
+                url: 'https://mcp.x.zip/polymarket/mcp'
+            }
+        ];
+
+        const clientSelect = document.getElementById('client');
+        const serverList = document.getElementById('server-list');
+
+        function getInstallCommand(server, client) {
+            const serverNameLower = server.name.toLowerCase();
+
+            switch(client) {
+                case 'claude-desktop':
+                    return `Add via Settings → Connectors\nURL: ${server.url}`;
+
+                case 'claude-code':
+                    return `claude mcp add --transport http ${serverNameLower} ${server.url}`;
+
+                case 'codex':
+                    return `codex mcp add ${serverNameLower} -- npx -y mcp-remote ${server.url}`;
+
+                case 'cursor':
+                    return `{
+  "${serverNameLower}": {
+    "type": "streamable-http",
+    "url": "${server.url}"
+  }
+}`;
+
+                case 'chatgpt':
+                    return `Add via Settings → Developer Mode → Connectors
+URL: ${server.url}`;
+
+                default:
+                    return server.url;
+            }
+        }
+
+        function formatInstallCommand(command, client) {
+            if (client === 'cursor') {
+                // Add syntax highlighting for JSON
+                return command
+                    .replace(/"([^"]+)":/g, '<span class="json-key">"$1"</span>:')
+                    .replace(/: "([^"]+)"/g, ': <span class="json-string">"$1"</span>');
+            }
+
+            // Highlight URLs in other formats
+            return command.replace(/(https?:\/\/[^\s]+)/g, '<span class="install-url">$1</span>');
+        }
+
+        function copyToClipboard(text, element) {
+            // Remove HTML tags for copying
+            const plainText = text.replace(/<[^>]*>/g, '');
+
+            navigator.clipboard.writeText(plainText).then(() => {
+                const feedback = element.querySelector('.copy-feedback');
+                element.classList.add('copied');
+                feedback.classList.add('show');
+
+                setTimeout(() => {
+                    element.classList.remove('copied');
+                    feedback.classList.remove('show');
+                }, 2000);
+            });
+        }
+
+        function renderServers() {
+            const client = clientSelect.value;
+
+            serverList.innerHTML = servers.map(server => {
+                const command = getInstallCommand(server, client);
+                const formattedCommand = formatInstallCommand(command, client);
+
+                return `
+                    <tr>
+                        <td data-label="Name">
+                            <div class="server-name">${server.name}</div>
+                        </td>
+                        <td data-label="Description">
+                            <div class="server-description">${server.description}</div>
+                        </td>
+                        <td data-label="Install">
+                            <div class="install-command" onclick="copyToClipboard('${command.replace(/'/g, "\\'")}', this)">
+                                ${formattedCommand}
+                                <div class="copy-feedback">Copied!</div>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        clientSelect.addEventListener('change', renderServers);
+        renderServers();
+    </script>
+</body>
+</html>
