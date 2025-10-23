@@ -167,6 +167,13 @@
             font-weight: 600;
             font-size: 0.75rem;
             flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .server-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .server-info {
@@ -341,13 +348,15 @@
             {
                 name: 'Deribit',
                 description: 'Options trading and derivatives market data',
-                url: 'https://mcp.x.zip/deribit/mcp'
+                url: 'https://mcp.x.zip/deribit/mcp',
+                logo: 'deribit-logo.png'
                 // stats: '2.5k' // Future feature
             },
             {
                 name: 'Polymarket',
                 description: 'Prediction market data and betting',
-                url: 'https://mcp.x.zip/polymarket/mcp'
+                url: 'https://mcp.x.zip/polymarket/mcp',
+                logo: 'polymarket-logo.png'
                 // stats: '1.8k' // Future feature
             }
         ];
@@ -442,12 +451,15 @@
             serverList.innerHTML = servers.map(server => {
                 const command = getInstallCommand(server, client);
                 const formattedCommand = formatInstallCommand(command, client);
+                const logoContent = server.logo
+                    ? `<img src="${server.logo}" alt="${server.name} logo">`
+                    : server.name[0];
 
                 return `
                     <tr>
                         <td>
                             <div class="server-info">
-                                <div class="server-logo">${server.name[0]}</div>
+                                <div class="server-logo">${logoContent}</div>
                                 <span class="server-name">${server.name}</span>
                             </div>
                         </td>
