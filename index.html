@@ -169,7 +169,7 @@
             cursor: pointer;
             transition: all 0.15s;
             border: 1px solid var(--border);
-            white-space: pre;
+            white-space: pre-line;
             line-height: 1.45;
             max-width: 500px;
             overflow-x: auto;
@@ -304,12 +304,7 @@
                     return `codex mcp add ${serverNameLower} -- npx -y mcp-remote ${server.url}`;
 
                 case 'cursor':
-                    return `{
-  "${serverNameLower}": {
-    "type": "streamable-http",
-    "url": "${server.url}"
-  }
-}`;
+                    return `{\n  "${serverNameLower}": {\n    "type": "streamable-http",\n    "url": "${server.url}"\n  }\n}`;
 
                 case 'chatgpt':
                     return `Add via Settings → Developer Mode → Connectors\nURL: ${server.url}`;
