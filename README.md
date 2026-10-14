@@ -81,6 +81,7 @@ This repo is also a plugin marketplace (`mcpx`). Each plugin bundles a server fr
 |---|---|
 | `deribit` | [azhang/deribit-mcp](https://github.com/azhang/deribit-mcp/tree/main/plugins/deribit) |
 | `polymarket` | azhang/polymarket-mcp (private for now) |
+| `kalshi` | azhang/kalshi-mcp (private for now; runs its server locally, so it isn't on the site's hosted list) |
 
 Install:
 

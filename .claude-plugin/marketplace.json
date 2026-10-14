@@ -12,6 +12,11 @@
       "name": "polymarket",
       "source": { "source": "git-subdir", "url": "azhang/polymarket-mcp", "path": "plugins/polymarket" },
       "description": "Polymarket prediction-market data through the hosted MCP server."
+    },
+    {
+      "name": "kalshi",
+      "source": { "source": "git-subdir", "url": "azhang/kalshi-mcp", "path": "plugins/kalshi" },
+      "description": "Kalshi prediction-market data: the kalshi skill and a local MCP server (public data, no key)."
     }
   ]
 }
