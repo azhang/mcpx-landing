@@ -13,6 +13,12 @@
       "source": { "source": "git-subdir", "url": "https://github.com/azhang/polymarket-mcp.git", "path": "./plugins/polymarket" },
       "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
       "category": "Finance"
+    },
+    {
+      "name": "kalshi",
+      "source": { "source": "git-subdir", "url": "https://github.com/azhang/kalshi-mcp.git", "path": "./plugins/kalshi" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Finance"
     }
   ]
 }
