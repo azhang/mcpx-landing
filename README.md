@@ -69,3 +69,23 @@ Works in all modern browsers with support for:
 - CSS Grid/Flexbox
 - `prefers-color-scheme` media query
 - Clipboard API
+
+## Plugin marketplace
+
+This repo is also a plugin marketplace (`mcpx`). Each plugin bundles a server from this site with its skill, and lives in that server's own repo under `plugins/<name>/`, in both formats: Claude Code (`.claude-plugin/plugin.json`) and [Agent Plugins](https://agent-plugins.org) (`plugin.json` + `mcp.json`). This repo only lists them:
+
+- `.claude-plugin/marketplace.json`: Claude Code, claude.ai, Cowork
+- `.agents/plugins/marketplace.json`: Codex and other Agent Plugins clients
+
+| Plugin | Source |
+|---|---|
+| `deribit` | [azhang/deribit-mcp](https://github.com/azhang/deribit-mcp/tree/main/plugins/deribit) |
+| `polymarket` | azhang/polymarket-mcp (private for now) |
+
+Install:
+
+- **claude.ai / desktop app / Cowork:** Customize → Plugins → Add → Add marketplace → `azhang/agent-plugins`
+- **Claude Code:** `/plugin marketplace add azhang/agent-plugins`, then `/plugin install deribit@mcpx`
+- **Codex:** `codex plugin marketplace add azhang/agent-plugins`, then install `deribit` from the `mcpx` marketplace
+
+To add a plugin: put it in its server's repo under `plugins/<name>/` with both manifests, add an entry to both marketplace files here, and run `claude plugin validate .`.

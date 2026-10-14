@@ -1,0 +1,17 @@
+{
+  "name": "mcpx",
+  "description": "MCP servers at mcp.x.zip, packaged as plugins with their skills.",
+  "owner": { "name": "Allie", "url": "https://github.com/azhang" },
+  "plugins": [
+    {
+      "name": "deribit",
+      "source": { "source": "git-subdir", "url": "azhang/deribit-mcp", "path": "plugins/deribit" },
+      "description": "Deribit options, vol surfaces, futures, funding and DVOL: the deribit skill and the hosted MCP server (public data)."
+    },
+    {
+      "name": "polymarket",
+      "source": { "source": "git-subdir", "url": "azhang/polymarket-mcp", "path": "plugins/polymarket" },
+      "description": "Polymarket prediction-market data through the hosted MCP server."
+    }
+  ]
+}
